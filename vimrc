@@ -4,7 +4,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-surround'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
@@ -47,4 +47,9 @@ set number " para que se muestren los numeros de linea
 set tabstop=2
 set shiftwidth=2
 set expandtab
+set dir=c:\\tmp	
+set backspace=indent,eol,start
 filetype plugin on
+if has('gui_running')
+  set guifont=Ubuntu_Mono:h12
+endif
