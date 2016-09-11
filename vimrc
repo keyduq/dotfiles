@@ -47,7 +47,6 @@ set number " para que se muestren los numeros de linea
 set tabstop=2
 set shiftwidth=2
 set expandtab
-set dir=c:\\tmp	
 set backspace=indent,eol,start
 filetype plugin on
 if has('gui_running')
