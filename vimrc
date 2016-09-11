@@ -38,6 +38,7 @@ let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$|[\/](node_modules)$'
 
 " configuracion de vim-airline
 let g:solarized = 1
+let g:airline_powerline_fonts = 1
 " let g:airline_solarized_normal_green = 1
 
 " vim-javascript
