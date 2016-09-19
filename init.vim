@@ -2,22 +2,42 @@ call plug#begin('~/.config/nvim/plugged')
 
 Plug 'scrooloose/nerdtree'
 Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/syntastic'
 Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'altercation/vim-colors-solarized'
-Plug 'pangloss/vim-javascript' 
 Plug 'mattn/emmet-vim'
 Plug 'valloric/youcompleteme'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jiangmiao/auto-pairs'
+Plug 'jwalton512/vim-blade'
+Plug 'tpope/vim-repeat'
+Plug 'benmills/vimux'
+Plug 'editorconfig/editorconfig-vim'
+Plug 'tpope/vim-ragtag'
+Plug 'neomake/neomake'
+Plug 'christoomey/vim-tmux-navigator'
+
+" JavaScript
+Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
+Plug 'moll/vim-node', { 'for': 'javascript' } " node support
+Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
+Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " ES6 and beyond syntax
+Plug 'mxw/vim-jsx', { 'for': ['jsx', 'javascript'] } " JSX support
+
+" TypeScript
+Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " typescript support
+
+" markdown
+Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
+Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
+
+" Php
 Plug 'shawncplus/phpcomplete.vim'
 Plug 'arnaud-lb/vim-php-namespace'
 Plug 'StanAngeloff/php.vim'
-Plug 'jwalton512/vim-blade'
 
 call plug#end()
 
@@ -27,18 +47,32 @@ set autoread " detecta si un archivo ha sido cambiado
 let mapleader = ','
 
 " Tab control
-set noexpandtab " tabs ftw
-set smarttab " tab espeta 'tabstop', 'shiftwidth', and 'softtabstop'
-set tabstop=4 " la visibilidad del tab
-set softtabstop=4 " editar como si tab fueran 4 caracteres
-set shiftwidth=4 " number of spaces to use for indent and unindent
-set shiftround " round indent to a multiple of 'shiftwidth'
+" Softtabs, 2 spaces
+set tabstop=2
+set shiftwidth=2
+set shiftround
+set expandtab
 
 " code folding settings
 set foldmethod=syntax " fold based on indent
 set foldnestmax=10 " deepest fold is 10 levels
 set nofoldenable " don't fold by default
 set foldlevel=1
+
+" Mostrar caracteres invisibles
+set list
+set listchars=tab:→\ ,eol:¬,trail:⋅,extends:❯,precedes:❮
+set showbreak=↪
+
+" Busqueda
+set ignorecase              " case insensitive searching
+set smartcase               " case-sensitive if expresson contains a capital letter
+
+set number " para que se muestren los numeros de linea
+set backspace=indent,eol,start
+
+" Copiar a clipboard
+set clipboard+=unnamedplus
 
 " para inicializar vim con NERDTree
 "autocmd vimenter * NERDTree
@@ -53,15 +87,6 @@ syntax enable
 set background=dark
 colorscheme solarized
 
-" configuracion de syntastic
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$|[\/](node_modules)$'
 
 " configuracion de vim-airline
@@ -71,53 +96,58 @@ let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
 " let g:airline_solarized_normal_green = 1
 
-" vim-javascript
-let g:javascript_plugin_jsdoc = 1
-
-set number " para que se muestren los numeros de linea
-set backspace=indent,eol,start
 filetype plugin on
-"if has('gui_running')
-  "set guifont=Ubuntu_Mono:h12
-"endif
 
+" Neomake
+autocmd! BufWritePost * Neomake
+
+let g:neomake_javascript_enabled_makers = ['eslint']
+let g:neomake_typescript_tsc_maker = {
+      \ 'args': ['-m', 'commonjs', '--noEmit' ],
+      \ 'append_file': 0,
+      \ 'errorformat':
+      \ '%E%f %#(%l\,%c): error %m,' .
+      \ '%E%f %#(%l\,%c): %m,' .
+      \ '%Eerror %m,' .
+      \ '%C%\s%\+%m'
+      \ }
 " laravel framework
 
 function! GenTags()
-	if isdirectory("./vendor")
-		echo '(re)Generating framework tags'
-		execute "!php artisan ide-helper:generate"
-		execute "!phpctags -R *"
-		if !filereadable(".git")
-			execute "!touch .git"
-		endif
-	else
-		echo 'Not in a framework project'
-		if filereadable("tags")
-			echo "Regenerating tags..."
-			execute "!phpctags -R *"
-			if !filereadable(".git")
-				execute "!touch .git"
-			endif
-		else
-			let choice = confirm("Create tags?", "&Yes\n&No", 2)
-			if choice == 1
-				echo "Generating tags..."
-				execute "!phpctags -R *"
-				if !filereadable(".git")
-					execute "!touch .git"
-				endif
-			endif
-		endif
-	endif
-:endfunction
+  if isdirectory("./vendor")
+    echo '(re)Generating framework tags'
+    execute "!php artisan ide-helper:generate"
+    execute "!phpctags -R *"
+    if !filereadable(".git")
+      execute "!touch .git"
+    endif
+  else
+    echo 'Not in a framework project'
+    if filereadable("tags")
+      echo "Regenerating tags..."
+      execute "!phpctags -R *"
+      if !filereadable(".git")
+        execute "!touch .git"
+      endif
+    else
+      let choice = confirm("Create tags?", "&Yes\n&No", 2)
+      if choice == 1
+        echo "Generating tags..."
+        execute "!phpctags -R *"
+        if !filereadable(".git")
+          execute "!touch .git"
+        endif
+      endif
+    endif
+  endif
+endfunction
 
 command! -nargs=* GenTags call GenTags()
 
 " Para importar a traves de \u en php
 function! IPhpInsertUse()
-    call PhpInsertUse()
-    call feedkeys('a',  'n')
+  call PhpInsertUse()
+  call feedkeys('a',  'n')
 endfunction
 autocmd FileType php inoremap <Leader>u <Esc>:call IPhpInsertUse()<CR>
 autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
@@ -127,3 +157,26 @@ set smartindent"
 
 " faster redrawing
 set ttyfast
+
+" directorios temporales
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+
+" highlight conflicts
+match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
+
+" editar ~/.config/nvim/init.vim
+map <leader>ev :e! ~/.config/nvim/init.vim<cr>
+
+" switch between current and last buffer
+nmap <leader>. <c-^>
+
+function! PhpSyntaxOverride()
+  hi! def link phpDocTags  phpDefine
+  hi! def link phpDocParam phpType
+endfunction
+
+augroup phpSyntaxOverride
+  autocmd!
+  autocmd FileType php call PhpSyntaxOverride()
+augroup END

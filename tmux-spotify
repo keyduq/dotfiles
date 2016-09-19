@@ -1,0 +1,16 @@
+#!/usr/bin/env python
+# Python script para mostrar la cancion actual de spotify
+# Creado por Keyvin Duque <thkeyduq@gmail.com>
+import dbus, re
+session_bus = dbus.SessionBus()
+try:
+    spotify_bus = session_bus.get_object("org.mpris.MediaPlayer2.spotify", "/org/mpris/MediaPlayer2")
+    spotify_properties = dbus.Interface(spotify_bus, "org.freedesktop.DBus.Properties")
+    metadata = spotify_properties.Get("org.mpris.MediaPlayer2.Player", "Metadata")
+
+    pattern = r'(?<=\')(?:\\.|[^\'\\])*(?=\')'
+    artist = str(metadata['xesam:artist'])
+    m = re.search(pattern, artist)
+    print m.group(), metadata['xesam:title']
+except:
+    print 'Spotify'
