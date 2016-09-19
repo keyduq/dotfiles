@@ -11,6 +11,6 @@ try:
     pattern = r'(?<=\')(?:\\.|[^\'\\])*(?=\')'
     artist = str(metadata['xesam:artist'])
     m = re.search(pattern, artist)
-    print m.group(), metadata['xesam:title']
+    print m.group(), '-', metadata['xesam:title']
 except:
     print 'Spotify'
