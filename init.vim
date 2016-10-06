@@ -19,6 +19,9 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'tpope/vim-ragtag'
 Plug 'neomake/neomake'
 Plug 'christoomey/vim-tmux-navigator'
+Plug 'nathanaelkane/vim-indent-guides'
+Plug 'diepm/vim-rest-console'
+Plug 'gregsexton/matchtag'
 
 " JavaScript
 Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
@@ -74,6 +77,9 @@ set backspace=indent,eol,start
 " Copiar a clipboard
 set clipboard+=unnamedplus
 
+" Numeros de lineas relativas
+set relativenumber
+
 " para inicializar vim con NERDTree
 "autocmd vimenter * NERDTree
 nmap <leader>n :NERDTreeToggle<cr>
@@ -83,14 +89,16 @@ nmap <leader>n :NERDTreeToggle<cr>
 let NERDTreeShowHidden=1"
 
 " para el tema
+let base16colorspace=256
 syntax enable
 set background=dark
-colorscheme solarized
+let g:solarized_base16=1
+colorscheme base16-solarized-dark
 
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$|[\/](node_modules)$'
 
 " configuracion de vim-airline
-let g:solarized = 1
+let g:airline_theme="solarized"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
@@ -143,6 +151,12 @@ function! GenTags()
 endfunction
 
 command! -nargs=* GenTags call GenTags()
+
+" Para linkear WQ, Wq con wq, W con w y Q con q
+:command WQ wq
+:command Wq wq
+:command W w
+:command Q q
 
 " Para importar a traves de \u en php
 function! IPhpInsertUse()
