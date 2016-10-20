@@ -22,6 +22,7 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'nathanaelkane/vim-indent-guides'
 Plug 'diepm/vim-rest-console'
 Plug 'gregsexton/matchtag'
+Plug 'digitaltoad/vim-pug'
 
 " JavaScript
 Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
@@ -104,6 +105,9 @@ let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
 " let g:airline_solarized_normal_green = 1
 
+" JSX on .js
+let g:jsx_ext_required = 0
+
 filetype plugin on
 
 " Neomake
@@ -153,10 +157,10 @@ endfunction
 command! -nargs=* GenTags call GenTags()
 
 " Para linkear WQ, Wq con wq, W con w y Q con q
-:command WQ wq
-:command Wq wq
-:command W w
-:command Q q
+:command! WQ wq
+:command! Wq wq
+:command! W w
+:command! Q q
 
 " Para importar a traves de \u en php
 function! IPhpInsertUse()
@@ -169,6 +173,13 @@ autocmd FileType php noremap <Leader>u :call PhpInsertUse()<CR>
 set autoindent " automatically set indent of new line
 set smartindent"
 
+" Persistent undo
+set undofile
+set undodir=$HOME/.config/nvim/.undo_history
+
+set undolevels=1000
+set undoreload=10000
+
 " faster redrawing
 set ttyfast
 
@@ -180,10 +191,14 @@ set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 " editar ~/.config/nvim/init.vim
-map <leader>ev :e! ~/.config/nvim/init.vim<cr>
+map <leader>ev :e ~/.config/nvim/init.vim<cr>
 
 " switch between current and last buffer
 nmap <leader>. <c-^>
+
+" incremento/decremento de numeros
+:nnoremap <A-a> <C-a>
+:nnoremap <A-x> <C-x>
 
 function! PhpSyntaxOverride()
   hi! def link phpDocTags  phpDefine
