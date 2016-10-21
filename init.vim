@@ -27,9 +27,11 @@ Plug 'digitaltoad/vim-pug'
 " JavaScript
 Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
 Plug 'moll/vim-node', { 'for': 'javascript' } " node support
-Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
-Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " ES6 and beyond syntax
+Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
+"Plug 'othree/yajs.vim', { 'for': 'javascript' } " JavaScript syntax plugin
+"Plug 'othree/es.next.syntax.vim', { 'for': 'javascript' } " ES6 and beyond syntax
 Plug 'mxw/vim-jsx', { 'for': ['jsx', 'javascript'] } " JSX support
+Plug 'heavenshell/vim-jsdoc', { 'for': ['jsx', 'javascript'] }
 
 " TypeScript
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " typescript support
@@ -103,7 +105,7 @@ let g:airline_theme="solarized"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
-" let g:airline_solarized_normal_green = 1
+"let g:airline_solarized_normal_green = 1
 
 " JSX on .js
 let g:jsx_ext_required = 0
@@ -112,6 +114,10 @@ filetype plugin on
 
 " Neomake
 autocmd! BufWritePost * Neomake
+
+" javascript highlight
+let g:javascript_plugin_jsdoc = 1
+let g:javascript_plugin_ngdoc = 1
 
 let g:neomake_javascript_enabled_makers = ['eslint']
 let g:neomake_typescript_tsc_maker = {
@@ -123,8 +129,8 @@ let g:neomake_typescript_tsc_maker = {
       \ '%Eerror %m,' .
       \ '%C%\s%\+%m'
       \ }
-" laravel framework
 
+" laravel framework
 function! GenTags()
   if isdirectory("./vendor")
     echo '(re)Generating framework tags'
