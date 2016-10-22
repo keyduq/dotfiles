@@ -23,6 +23,7 @@ Plug 'nathanaelkane/vim-indent-guides'
 Plug 'diepm/vim-rest-console'
 Plug 'gregsexton/matchtag'
 Plug 'digitaltoad/vim-pug'
+Plug 'chriskempson/base16-vim'
 
 " JavaScript
 Plug 'gavocanov/vim-js-indent', { 'for': 'javascript' } " JavaScript indent support
@@ -37,7 +38,6 @@ Plug 'heavenshell/vim-jsdoc', { 'for': ['jsx', 'javascript'] }
 Plug 'leafgarland/typescript-vim', { 'for': 'typescript' } " typescript support
 
 " markdown
-Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
 Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
 
 " Php
@@ -98,7 +98,7 @@ set background=dark
 let g:solarized_base16=1
 colorscheme base16-solarized-dark
 
-let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$|[\/](node_modules)$'
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$|[\/](node_modules|vendor)$'
 
 " configuracion de vim-airline
 let g:airline_theme="solarized"
