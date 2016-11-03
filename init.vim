@@ -161,6 +161,7 @@ function! GenTags()
 endfunction
 
 command! -nargs=* GenTags call GenTags()
+command! -nargs=1 Vr call VimuxRunCommand(<f-args>)
 
 " Para linkear WQ, Wq con wq, W con w y Q con q
 :command! WQ wq
