@@ -6,7 +6,8 @@ Plug 'tpope/vim-surround'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'altercation/vim-colors-solarized'
+"Plug 'altercation/vim-colors-solarized'
+Plug 'chriskempson/base16-vim'
 Plug 'mattn/emmet-vim'
 Plug 'valloric/youcompleteme'
 Plug 'terryma/vim-multiple-cursors'
@@ -95,13 +96,13 @@ let NERDTreeShowHidden=1"
 let base16colorspace=256
 syntax enable
 set background=dark
-let g:solarized_base16=1
-colorscheme base16-solarized-dark
+"let g:solarized_base16=1
+colorscheme base16-default-dark
 
 let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn)$|[\/](node_modules|vendor)$'
 
 " configuracion de vim-airline
-let g:airline_theme="solarized"
+let g:airline_theme="base16"
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 set laststatus=2
