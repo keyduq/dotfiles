@@ -84,6 +84,9 @@ set clipboard+=unnamedplus
 " Numeros de lineas relativas
 set relativenumber
 
+" Facil quitar busqueda
+nnoremap <esc><esc> :noh<return><esc>
+
 " para inicializar vim con NERDTree
 "autocmd vimenter * NERDTree
 nmap <leader>n :NERDTreeToggle<cr>
